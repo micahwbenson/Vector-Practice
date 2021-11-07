@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class SpaceTransformWorldToLocal : MonoBehaviour
 {
-    public Vector2 localSpacePt;
+    public Vector2 worldSpacePt;
+    public Transform localSpaceObj;
 
     private void OnDrawGizmos()
     {
@@ -16,6 +17,9 @@ public class SpaceTransformWorldToLocal : MonoBehaviour
         DrawBasisVectors(objPos, right, up);
         DrawWorldBasisVectors();
 
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(worldSpacePt, 0.05f);
+
         //Gizmos.color = Color.cyan;
         //Gizmos.DrawSphere(LocaltoWorld(localSpacePt), 0.1f);
 
@@ -24,6 +28,20 @@ public class SpaceTransformWorldToLocal : MonoBehaviour
         //    Vector2 worldConversionVector = localSpacePt.x * right + localSpacePt.y * up;
         //    return objPos + worldConversionVector;
         //}
+
+        Vector2 WorldtoLocal(Vector2 worldSpacePt)
+        {
+            //Vector2 objPos = objTf.transform.position;
+            Vector2 relativePt = (worldSpacePt - objPos);
+
+            float x = Vector2.Dot(relativePt, right);
+            float y = Vector2.Dot(relativePt, up);
+
+            return new Vector2(x, y);
+
+        }
+
+        localSpaceObj.localPosition = WorldtoLocal(worldSpacePt);
     }
 
     private void DrawBasisVectors(Vector2 pos, Vector2 right, Vector2 up)
