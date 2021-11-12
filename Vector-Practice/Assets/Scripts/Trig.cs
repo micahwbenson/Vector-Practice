@@ -17,6 +17,8 @@ public class Trig : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        //Need to review and practice this again, because I'm pretty sure I don't really remember any of it
+
         //Getting x and y coordinates
         Vector2 AngToDir( float angRad ) =>  new Vector2(Mathf.Cos(angRad), Mathf.Sin(angRad));
 
