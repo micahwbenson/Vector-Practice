@@ -23,10 +23,10 @@ public class Trig : MonoBehaviour
         Vector2 AngToDir( float angRad ) =>  new Vector2(Mathf.Cos(angRad), Mathf.Sin(angRad));
 
         //Taking a vector and getting an angle out of that
-        float DirToAng( Vector2 v)
-        {
-            return Mathf.Atan2(v.y, v.x); //Atan2 puts y and x backwards, super annoying
-        }
+        //float DirToAng( Vector2 v)
+        //{
+        //    return Mathf.Atan2(v.y, v.x); //Atan2 puts y and x backwards, super annoying
+        //}
 
         for (int i = 0; i < dotCount; i++)
         {
@@ -40,6 +40,7 @@ public class Trig : MonoBehaviour
 
 
             Gizmos.DrawSphere(point, 0.05f);
+            //How to draw a line between each of these spheres though? 
         }
     }
 }
