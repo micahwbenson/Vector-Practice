@@ -40,7 +40,7 @@ public class Trig : MonoBehaviour
 
 
             Gizmos.DrawSphere(point, 0.05f);
-            //How to draw a line between each of these spheres though? 
+            
         }
     }
 }

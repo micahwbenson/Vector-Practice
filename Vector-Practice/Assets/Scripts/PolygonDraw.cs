@@ -7,6 +7,9 @@ public class PolygonDraw : MonoBehaviour
     [Range(3, 6)]
     public int pointsOnPolygon;
 
+    [Range(1, 2)]
+    public int densityModifier;
+
     const float Tau = 6.28318530718f;
 
     Vector2 AngToDir(float rad)
@@ -14,51 +17,109 @@ public class PolygonDraw : MonoBehaviour
         return new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
     }
 
-    private void OnDrawGizmos()
+    //Just memorize how these functions work for now, and you'll develop a facility with them over time . . .
+    float DirToAng(Vector2 v)
     {
-        for (int i = 0; i < pointsOnPolygon; i++)
-        {
-            //Interperlator - calculating turns for for each point
-            float t = i / (float)pointsOnPolygon;
-            //Converting turns to radians, dope!
-            float radAng = t * Tau;
-
-            Vector2 point = AngToDir(radAng);
-
-            Gizmos.DrawSphere(point, 0.05f);
-        }
+        return Mathf.Atan2(v.y, v.x);
     }
 
-    //const float TAU = 6.28318530718f;
-    //[Range(0, 100)]
-    //public int dotCount = 16;
+    private void OnDrawGizmos()
+    {
+        //Weird way to do this, but I think it will work! -- These values are quickly overwritten by the polygon draw functions
+        Vector2 One = Vector2.up;
+        Vector2 Start = Vector2.up;
 
-    //private void OnDrawGizmos()
-    //{
-    //    //Need to review and practice this again, because I'm pretty sure I don't really remember any of it
+        if (densityModifier > 1)
+        {
+            for (int d = 0; d < pointsOnPolygon * 2; d++)
+            {
+                //Interperlator - calculating turns for for each point
+                float t = d / (float)pointsOnPolygon;
+                //Converting turns to radians, dope!
+                float radAng = t * Tau;
 
-    //    //Getting x and y coordinates
-    //    Vector2 AngToDir(float angRad) => new Vector2(Mathf.Cos(angRad), Mathf.Sin(angRad));
+                Vector2 point = AngToDir(radAng);
 
-    //    //Taking a vector and getting an angle out of that
-    //    //float DirToAng( Vector2 v)
-    //    //{
-    //    //    return Mathf.Atan2(v.y, v.x); //Atan2 puts y and x backwards, super annoying
-    //    //}
+                Gizmos.DrawSphere(point, 0.05f);
+                //Polygon Draw Function with the Density Modifier
+                if (densityModifier != 1)
+                {
+                    if (d == 0)
+                    {
+                        Start = point;
+                    }
+                    else if (d % densityModifier == 0 && d != 0)
+                    {
+                        Gizmos.DrawLine(point, Start);
+                        Start = point;
+                    }
+                    if (d == pointsOnPolygon * 2)
+                    {
+                        for (int f = (pointsOnPolygon * 2); f > pointsOnPolygon; f--)
+                        {
+                            if (f == pointsOnPolygon * 2)
+                            {
+                                Start = point;
+                            }
+                            else if (f % densityModifier == 0 && f != 0)
+                            {
+                                Gizmos.DrawLine(point, Start);
+                                Start = point;
+                            }
+                        }
+                    }
+                    
+                }
 
-    //    for (int i = 0; i < dotCount; i++)
-    //    {
-    //        //A value going from zero to 1 - don't -1 to avoid drawing a dot at 0 and 360
-    //        //This is the angle in turns - a count of one
-    //        float t = i / (float)dotCount; // A value from 0 to 1 - interperlator - "normalised value range" - in this case it also means turns!!!
-    //        //Converted from turns into radians
-    //        float angRad = t * TAU;
+                One = point;
+                if (d == 0)
+                {
+                    Start = point;
+                }
+            }
+            Gizmos.DrawLine(Start, Vector2.right);
+        }
+        else if (densityModifier == 1)
+        {
+            for (int i = 0; i <= pointsOnPolygon; i++)
+            {
+                //Interperlator - calculating turns for for each point
+                float t = i / (float)pointsOnPolygon;
+                //Converting turns to radians, dope!
+                float radAng = t * Tau;
 
-    //        Vector2 point = AngToDir(angRad);
+                Vector2 point = AngToDir(radAng);
+
+                Gizmos.DrawSphere(point, 0.05f);
 
 
-    //        Gizmos.DrawSphere(point, 0.05f);
-    //        //How to draw a line between each of these spheres though? 
-    //    }
-    //}
+                //Basic polygon draw function
+                if (densityModifier == 1)
+                {
+                    if (i != 0 && i != i - 1)
+                    {
+                        Gizmos.DrawLine(point, One);
+                    }
+                    else if (i == i - 1)
+                    {
+                        Gizmos.DrawLine(point, One);
+                    }
+                }
+
+                One = point;
+                if (i == 0)
+                {
+                    Start = point;
+                }
+            }
+        }
+
+        if (densityModifier == 1)
+        {
+            Gizmos.DrawLine(One, Start);
+        }
+
+    }
 }
+
+

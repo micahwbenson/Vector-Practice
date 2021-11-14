@@ -210,7 +210,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb7867ada578edf4fa55cc26c14f1045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointsOnPolygon: 3
+  pointsOnPolygon: 5
+  densityModifier: 2
 --- !u!1 &1582143456
 GameObject:
   m_ObjectHideFlags: 0
