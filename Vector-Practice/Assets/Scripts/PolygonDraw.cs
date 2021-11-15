@@ -31,51 +31,69 @@ public class PolygonDraw : MonoBehaviour
 
         if (densityModifier > 1)
         {
-            for (int d = 0; d < pointsOnPolygon * 2; d++)
+            int densityCount = 0;
+            for (int d = 0; d <= pointsOnPolygon * densityModifier; d++)
             {
                 //Interperlator - calculating turns for for each point
                 float t = d / (float)pointsOnPolygon;
+                if (d > pointsOnPolygon)
+                {
+                    t = t - 1;
+                }
                 //Converting turns to radians, dope!
                 float radAng = t * Tau;
 
                 Vector2 point = AngToDir(radAng);
-
-                Gizmos.DrawSphere(point, 0.05f);
-                //Polygon Draw Function with the Density Modifier
-                if (densityModifier != 1)
+                if (d <= pointsOnPolygon)
                 {
-                    if (d == 0)
-                    {
-                        Start = point;
-                    }
-                    else if (d % densityModifier == 0 && d != 0)
-                    {
-                        Gizmos.DrawLine(point, Start);
-                        Start = point;
-                    }
-                    if (d == pointsOnPolygon * 2)
-                    {
-                        for (int f = (pointsOnPolygon * 2); f > pointsOnPolygon; f--)
-                        {
-                            if (f == pointsOnPolygon * 2)
-                            {
-                                Start = point;
-                            }
-                            else if (f % densityModifier == 0 && f != 0)
-                            {
-                                Gizmos.DrawLine(point, Start);
-                                Start = point;
-                            }
-                        }
-                    }
-                    
+                    Gizmos.DrawSphere(point, 0.05f);
                 }
 
-                One = point;
+                //Polygon Draw Function with the Density Modifier
+
+                densityCount++;
                 if (d == 0)
                 {
                     Start = point;
                 }
+                else if (densityCount == densityModifier)
+                {
+                    Gizmos.DrawLine(point, Start);
+                    Start = point;
+                    densityCount = 1;
+                }
+
+
+                //if (d == pointsOnPolygon)
+                //{
+                //    for (int f = (pointsOnPolygon); f > pointsOnPolygon; f--)
+                //    {
+                //        I forgot the drawing functions here, that's why it's not working and the star polygon was just looping through an additional time offeset by one
+                //        float tTwo = f / (float)pointsOnPolygon;
+                //        Converting turns to radians, dope!
+                //        float radAng2 = tTwo * Tau;
+
+                //        Vector2 point2 = AngToDir(radAng);
+
+                //        if (f == pointsOnPolygon)
+                //        {
+                //            Start = point2;
+                //        }
+                //        else if (f % densityModifier == 0 && f != 0)
+                //        {
+                //            Gizmos.DrawLine(point2, Start);
+                //            Start = point2;
+                //        }
+                //    }
+                //}
+
+
+
+                One = point;
+                //if (d == 0)
+                //{
+                //    Start = point;
+                //}
             }
             Gizmos.DrawLine(Start, Vector2.right);
         }
