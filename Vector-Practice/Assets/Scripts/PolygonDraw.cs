@@ -56,7 +56,7 @@ public class PolygonDraw : MonoBehaviour
                 {
                     Start = point;
                 }
-                else if (densityCount == densityModifier)
+                else if (densityCount != 0)
                 {
                     Gizmos.DrawLine(point, Start);
                     Start = point;
@@ -97,40 +97,40 @@ public class PolygonDraw : MonoBehaviour
             }
             Gizmos.DrawLine(Start, Vector2.right);
         }
-        else if (densityModifier == 1)
-        {
-            for (int i = 0; i <= pointsOnPolygon; i++)
-            {
-                //Interperlator - calculating turns for for each point
-                float t = i / (float)pointsOnPolygon;
-                //Converting turns to radians, dope!
-                float radAng = t * Tau;
+        //else if (densityModifier == 1)
+        //{
+        //    for (int i = 0; i <= pointsOnPolygon; i++)
+        //    {
+        //        //Interperlator - calculating turns for for each point
+        //        float t = i / (float)pointsOnPolygon;
+        //        //Converting turns to radians, dope!
+        //        float radAng = t * Tau;
 
-                Vector2 point = AngToDir(radAng);
+        //        Vector2 point = AngToDir(radAng);
 
-                Gizmos.DrawSphere(point, 0.05f);
+        //        Gizmos.DrawSphere(point, 0.05f);
 
 
-                //Basic polygon draw function
-                if (densityModifier == 1)
-                {
-                    if (i != 0 && i != i - 1)
-                    {
-                        Gizmos.DrawLine(point, One);
-                    }
-                    else if (i == i - 1)
-                    {
-                        Gizmos.DrawLine(point, One);
-                    }
-                }
+        //        //Basic polygon draw function
+        //        if (densityModifier == 1)
+        //        {
+        //            if (i != 0 && i != i - 1)
+        //            {
+        //                Gizmos.DrawLine(point, One);
+        //            }
+        //            else if (i == i - 1)
+        //            {
+        //                Gizmos.DrawLine(point, One);
+        //            }
+        //        }
 
-                One = point;
-                if (i == 0)
-                {
-                    Start = point;
-                }
-            }
-        }
+        //        One = point;
+        //        if (i == 0)
+        //        {
+        //            Start = point;
+        //        }
+        //    }
+        //}
 
         if (densityModifier == 1)
         {

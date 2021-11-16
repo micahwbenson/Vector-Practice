@@ -12,21 +12,60 @@ public class PolygonDraw2 : MonoBehaviour
     [Range(1, 2)]
     public int densityModifier = 1;
 
+    //Converts from an angle to a direction
+    Vector2 AngToDir(float radAngle)
+    {
+        return new Vector2(Mathf.Cos(radAngle), Mathf.Sin(radAngle));
+    }
+
     private void OnDrawGizmos()
     {
+
+
+        Vector2 savedPlace = Vector2.right;
+        Vector2 start = Vector2.right;
+
         for (int d = 0; d < pointsOnPolygon * densityModifier; d++)
         {
-            //Straight drawing 
-            if (densityModifier % 2 != 0)
-            {
+            //You need an interperlator to set each vector position -- gives each vector position in turns
+            float t = d / (float)pointsOnPolygon;
 
+            //Converting turns into radians
+            float radAng = t * Tau;
+
+            Vector2 point = AngToDir(radAng);
+
+            Gizmos.DrawSphere(point, 0.05f);
+
+            //Now drawing the lines fo reach polygon -- regular polygon drawing
+            if (densityModifier == 1)
+            {
+                if (d == 0)
+                {
+                    start = point;
+                    savedPlace = point;
+                }
+                else if (d < pointsOnPolygon)
+                {
+                    Gizmos.DrawLine(point, savedPlace);
+                    savedPlace = point;
+                }
             }
-
-            //if density modifer is greater than 1
-            if (densityModifier % 2 == 0)
+            else
             {
-
+                if (d == 0)
+                {
+                    start = point;
+                    savedPlace = point;
+                }
+                else if (d % 2 == 0)
+                {
+                    Gizmos.DrawLine(point, savedPlace);
+                    savedPlace = point;
+                }
             }
         }
+        Gizmos.DrawLine(start, savedPlace);
+            
     }
 }
