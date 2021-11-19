@@ -29,10 +29,13 @@ public class FreyaFoV : MonoBehaviour
                 lowestDot = dot;
                 outermost = pTf.position;
             }
+
+            DrawPointRadii(pTf);
         }
 
         //You can get the angle out of two normalized vectors with the DOT omg . . .
         float angRad = Mathf.Acos(lowestDot);
+
 
         cam.fieldOfView = angRad * 2 * Mathf.Rad2Deg;
 
@@ -44,5 +47,13 @@ public class FreyaFoV : MonoBehaviour
     {
         FoVPoint outermostRadius = outermost.GetComponent<FoVPoint>();
         Vector2 radius = outermostRadius.radius * Vector2.up; // How can I specifically get the radius of this object -- ok this should convert the radius into a usable vector, I think . . . ok, once you start to understand some of this it can be quite fun
+        Gizmos.DrawWireSphere(outermostRadius.transform.position, outermostRadius.radius);
+    }
+
+    Vector2 grabRadius(Transform outermost)
+    {
+        FoVPoint outermostRadius = outermost.GetComponent<FoVPoint>();
+        Vector2 radius = outermostRadius.radius * Vector2.up; // How can I specifically get the radius of this object -- ok this should convert the radius into a usable vector, I think . . . ok, once you start to understand some of this it can be quite fun
+        return radius;
     }
 }
