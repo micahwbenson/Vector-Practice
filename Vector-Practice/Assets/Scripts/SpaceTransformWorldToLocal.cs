@@ -38,7 +38,6 @@ public class SpaceTransformWorldToLocal : MonoBehaviour
             float y = Vector2.Dot(relativePt, up);
 
             return new Vector2(x, y);
-
         }
 
         localSpaceObj.localPosition = WorldtoLocal(worldSpacePt);
